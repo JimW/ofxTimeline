@@ -41,6 +41,10 @@ ofxTLVideoTrack::ofxTLVideoTrack()
 	outFrame = -1;
     currentlyPlaying = false;
     drawVideoPreview = true;
+    drawVideoInOutLabels = true;
+    drawVideoPreviewTimecodeLabel = true;
+    drawVideoPreviewFrameNumLabel = true;
+    drawVideoThumbnailFramenumLabels = true;
 	playAlongToTimeline = true;
 	isSetup = false;
 }
@@ -414,7 +418,9 @@ void ofxTLVideoTrack::draw(){
 					
             ofNoFill();
             ofSetColor(timeline->getColors().textColor);
-            timeline->getFont().drawString(ofToString(videoThumbs[i].framenum), videoThumbs[i].displayRect.x+5, videoThumbs[i].displayRect.y+15);
+            if (drawVideoThumbnailFramenumLabels){
+                timeline->getFont().drawString(ofToString(videoThumbs[i].framenum), videoThumbs[i].displayRect.x+5, videoThumbs[i].displayRect.y+15);
+            }
             ofRect(videoThumbs[i].displayRect);
 		}
         
@@ -434,8 +440,12 @@ void ofxTLVideoTrack::draw(){
 	
 	ofSetColor(timeline->getColors().textColor);
 	ofLine(selectedFrameX, bounds.y, selectedFrameX, bounds.y+bounds.height);
-	timeline->getFont().drawString("F# " + ofToString(selectedFrame), selectedFrameX, bounds.y+15);
-	timeline->getFont().drawString(ofxTimecode::timecodeForSeconds(player->getPosition()*player->getDuration()), selectedFrameX, bounds.y+30);
+    if (drawVideoPreviewFrameNumLabel){
+        timeline->getFont().drawString("F# " + ofToString(selectedFrame), selectedFrameX, bounds.y+15);
+    }
+    if (drawVideoPreviewTimecodeLabel){
+        timeline->getFont().drawString(ofxTimecode::timecodeForSeconds(player->getPosition()*player->getDuration()), selectedFrameX, bounds.y+30);
+    }
 	
 	if(inFrame != -1){
 		ofSetLineWidth(2);
@@ -445,8 +455,10 @@ void ofxTLVideoTrack::draw(){
 		ofLine(inFrameX, bounds.y, inFrameX, bounds.y+bounds.height);
 		ofLine(outFrameX, bounds.y, outFrameX, bounds.y+bounds.height);
 		ofSetColor(timeline->getColors().textColor);
-		timeline->getFont().drawString("in  " + ofToString(inFrame),  inFrameX  + 5, bounds.y + 10);
-		timeline->getFont().drawString("out " + ofToString(outFrame), outFrameX + 5, bounds.y + bounds.height - 20);
+        if (drawVideoInOutLabels){
+            timeline->getFont().drawString("in  " + ofToString(inFrame),  inFrameX  + 5, bounds.y + 10);
+            timeline->getFont().drawString("out " + ofToString(outFrame), outFrameX + 5, bounds.y + bounds.height - 20);
+        }
 	}
 	
 	ofPopStyle();
@@ -496,6 +508,38 @@ void ofxTLVideoTrack::setDrawVideoPreview(bool drawPreview){
 
 bool ofxTLVideoTrack::getDrawVideoPreview(){
     return drawVideoPreview;
+}
+
+void ofxTLVideoTrack::setDrawVideoPreviewTimecodeLabel(bool drawLabel){
+    drawVideoPreviewTimecodeLabel = drawLabel;
+}
+
+bool ofxTLVideoTrack::getDrawVideoPreviewTimecodeLabel(){
+    return drawVideoPreviewTimecodeLabel;
+}
+
+void ofxTLVideoTrack::setDrawVideoPreviewFrameNumLabel(bool drawLabel){
+    drawVideoPreviewFrameNumLabel = drawLabel;
+}
+
+bool ofxTLVideoTrack::getDrawVideoPreviewFrameNumLabel(){
+    return drawVideoPreviewFrameNumLabel;
+}
+
+void ofxTLVideoTrack::setDrawVideoInOutLabels(bool drawLabels){
+    drawVideoInOutLabels = drawLabels;
+}
+
+bool ofxTLVideoTrack::getDrawVideoInOutLabels(){
+    return drawVideoInOutLabels;
+}
+
+void ofxTLVideoTrack::setDrawVideoThumbnailFramenumLabels(bool drawLabels){
+    drawVideoThumbnailFramenumLabels = drawLabels;
+}
+
+bool ofxTLVideoTrack::getDrawVideoThumbnailFramenumLabels(){
+    return drawVideoThumbnailFramenumLabels;
 }
 
 //width and height of image elements

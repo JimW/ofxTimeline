@@ -73,7 +73,19 @@ class ofxTLVideoTrack : public ofxTLImageTrack, public ofThread {
 
     void setDrawVideoPreview(bool drawPreview);
     bool getDrawVideoPreview();
-	
+
+    void setDrawVideoPreviewTimecodeLabel(bool drawLabel);
+    bool getDrawVideoPreviewTimecodeLabel();
+    
+    void setDrawVideoPreviewFrameNumLabel(bool drawLabel);
+    bool getDrawVideoPreviewFrameNumLabel();
+    
+    void setDrawVideoInOutLabels(bool drawLabels);
+    bool getDrawVideoInOutLabels();
+
+    void setDrawVideoThumbnailFramenumLabels(bool drawLabels);
+    bool getDrawVideoThumbnailFramenumLabels();
+    
     bool isLoaded();
 	int selectFrame(int frame); //returns the true selected frame in video
 	void toggleThumbs();
@@ -105,6 +117,12 @@ class ofxTLVideoTrack : public ofxTLImageTrack, public ofThread {
 	int outFrame;
     
 	bool drawVideoPreview;
+    bool drawVideoPreviewTimecodeLabel;
+    bool drawVideoPreviewFrameNumLabel;
+    
+    bool drawVideoInOutLabels;
+    bool drawVideoThumbnailFramenumLabels;
+
     bool canCalculateThumbs();
     bool currentlyPlaying;
     
